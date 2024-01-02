@@ -24,15 +24,39 @@ function delay(milliseconds){
 
 function getUserInput(prompt) {
     return new Promise(resolve => {
-        readline.question(prompt, answer => { resolve(answer);});
+        readline.question(prompt, answer => { resolve(answer.trim());});
     });
 }
+
+async function itemExists(accountId, DoB) {
+    const params = {
+      TableName: 'VuLPES',
+      Key: {
+        AccountId: accountId,
+        DoB: DoB
+      },
+    };
+  
+    try {
+      const data = await dynamoDB.get(params).promise();
+      return !!data.Item; // Return true if item exists, false otherwise
+    } catch (error) {
+      console.error('Error checking if item exists:', error);
+      return false;
+    }
+  }
 
 async function addItemToDb(){
     await delay(1000);
     const accountId = await getUserInput('Enter account ID: ');
     console.clear()
-    const doB = await getUserInput('Enter date of birth (yyyy-mm-dd): ');
+    const DoB = await getUserInput('Enter date of birth (yyyy-mm-dd): ');
+    const entryExists = await itemExists(accountId, DoB);
+    if(entryExists){
+        console.log('Item with the same account ID and DoB already exists. Cannot add duplicate.');
+        readline.close();
+        process.exit();
+    }
     console.clear()
     const nameDb = await getUserInput('Enter name of person: ');
     console.clear()
@@ -45,7 +69,7 @@ async function addItemToDb(){
         TableName: 'VuLPES', 
         Item: {
           AccountId: accountId,
-          DoB: doB ,
+          DoB: DoB ,
           Name: nameDb,
           Password: password,
           Username: username
@@ -59,11 +83,9 @@ async function addItemToDb(){
           console.log('\nItem added successfully:', data);
         }
         readline.close
-        exit
+        process.exit();
       });
 
 }
 
 addItemToDb();
-
-
