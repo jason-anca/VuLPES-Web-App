@@ -8,3 +8,7 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - Allow the app to communicate with DynamoDB
 - Allow the ability to push table entries into DynamoDB
 - Once entities can be pushed into the table, write code to salt and hash passwords, which will then be pushed to DynamoDB
+
+# Current Features
+- Ability to push items to DynamoDB table
+- Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
