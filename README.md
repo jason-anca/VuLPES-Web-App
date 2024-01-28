@@ -9,10 +9,15 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - Fill in the prompts asked in the command line.
 
 # TO DO
-- Get started on the Web Application by creating a simple GUI
-- Allow the app to communicate with DynamoDB
-- Allow the ability to push table entries into DynamoDB
+- ~~Get started on the Web Application by creating a simple CLI GUI~~
+- ~~Allow the app to communicate with DynamoDB~~
+- ~~Allow the ability to push table entries into DynamoDB~~
 - Once entities can be pushed into the table, write code to salt and hash passwords, which will then be pushed to DynamoDB
+- Finish CRUD capabilties
+    - ~~Create~~
+    - ~~Read~~
+    - Update
+    - Delete
 
 # Current Features
 - Ability to push items to DynamoDB table.
