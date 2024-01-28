@@ -88,9 +88,29 @@ async function addItemToDb(){
       });
 }
 
-async function displayMenu() {
-  await clearTerminal();
+async function listEntries() {
+  const params = {
+    TableName: 'VuLPES',
+  }
 
+  try {
+    const data = await dynamoDB.scan(params).promise();
+
+    if (data.Items.length === 0) {
+      console.log('No entries found in the database.');
+    } else {
+      console.log('List of entries in the database: ');
+      data.Items.forEach(item => {
+        console.log(item);
+      });
+    }
+  } catch (error) {
+    console.error('Error listing entries:', error);
+  }
+}
+
+
+async function displayMenu() {
   console.log('1. Add Item to Database');
   console.log('2. List all items in Database(non functional)');
   console.log('0. Quit');
@@ -99,11 +119,12 @@ async function displayMenu() {
 
   switch (userChoice) {
     case '1':
+      await clearTerminal();
       await addItemToDb();
       break;
     case '2':
-      console.log('you selected option 2')
       await clearTerminal();
+      await listEntries();
       break;
     case '0':
       console.log('Goodbye!');
