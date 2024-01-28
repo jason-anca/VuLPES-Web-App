@@ -1,7 +1,8 @@
 require('dotenv').config();
 const readLine = require('readline');
 const AWS = require('aws-sdk');
-const { exit } = require('process');
+const { exit, rawListeners } = require('process');
+const { clearTerminal } = require('./utils')
 
 AWS.config.update({
   region: process.env.AWS_REGION,          // e.g., us-east-1
@@ -85,7 +86,34 @@ async function addItemToDb(){
         readline.close
         process.exit();
       });
-
 }
 
-addItemToDb();
+async function displayMenu() {
+  await clearTerminal();
+
+  console.log('1. Add Item to Database');
+  console.log('2. List all items in Database(non functional)');
+  console.log('0. Quit');
+
+  const userChoice = await getUserInput('\nEnter your choice: ')
+
+  switch (userChoice) {
+    case '1':
+      await addItemToDb();
+      break;
+    case '2':
+      console.log('you selected option 2')
+      await clearTerminal();
+      break;
+    case '0':
+      console.log('Goodbye!');
+      readLine.close();
+      process.exit();
+    default:
+      console.log('Invalid Choice. Please select a valid option.');
+      break;
+  }
+  await displayMenu();
+}
+
+displayMenu();
