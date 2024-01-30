@@ -126,6 +126,16 @@ async function deleteEntry(accountId, DoB) {
   }
 }
 
+async function updateEntry(accountId, DoB){
+  const params = {
+    TableName: 'VuLPES',
+    Key: {
+      AccountId: accountId,
+      DoB: DoB,
+    },
+  };
+}
+
 async function displayMenu() {
   console.log('1. Add Item to Database');
   console.log('2. List all items in Database(non functional)');

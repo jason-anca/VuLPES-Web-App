@@ -17,9 +17,10 @@ Progress is currently being tracked through the use of Trello. The board can be 
     - ~~Create~~
     - ~~Read~~
     - Update
-    - Delete
+    - ~~Delete~~
 
 # Current Features
-- Ability to push items to DynamoDB table.
+- Ability to push *new items to DynamoDB table.
 - Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
 - Read entries from Database.
+- Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB)
