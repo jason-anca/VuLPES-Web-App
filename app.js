@@ -70,7 +70,7 @@ async function addItemToDb(){
         TableName: 'VuLPES', 
         Item: {
           AccountId: accountId,
-          DoB: DoB ,
+          DoB: DoB,
           Name: nameDb,
           Password: password,
           Username: username
@@ -109,10 +109,27 @@ async function listEntries() {
   }
 }
 
+async function deleteEntry(accountId, DoB) {
+  const params = {
+    TableName: 'VuLPES',
+    Key: {
+      AccountId: accountId,
+      DoB: DoB,
+    },
+  };
+
+  try {
+    const data = await dynamoDB.delete(params).promise();
+    console.log('Entry deleted successfully:', data);
+  } catch (error) {
+    console.error('Error deleting entry:', error);
+  }
+}
 
 async function displayMenu() {
   console.log('1. Add Item to Database');
   console.log('2. List all items in Database(non functional)');
+  console.log('3. Delete entry in Database');
   console.log('0. Quit');
 
   const userChoice = await getUserInput('\nEnter your choice: ')
@@ -125,6 +142,13 @@ async function displayMenu() {
     case '2':
       await clearTerminal();
       await listEntries();
+      break;
+    case '3':
+      await clearTerminal();
+      await listEntries();
+      const accountIdToDelete = await getUserInput('Enter AccountId to delete: ');
+      const DoBToDelete = await getUserInput('Enter DoB to delete: ');
+      await deleteEntry(accountIdToDelete, DoBToDelete);
       break;
     case '0':
       console.log('Goodbye!');
