@@ -2,7 +2,7 @@ require('dotenv').config();
 const readLine = require('readline');
 const AWS = require('aws-sdk');
 const { exit, rawListeners } = require('process');
-const { clearTerminal } = require('./utils')
+const { clearTerminal, hashPassword } = require('./utils')
 
 AWS.config.update({
   region: process.env.AWS_REGION,          // e.g., us-east-1
@@ -61,10 +61,11 @@ async function addItemToDb(){
     console.clear()
     const nameDb = await getUserInput('Enter name of person: ');
     console.clear()
-    const password = await getUserInput('Enter password: ');
+    const plainTextPassword = await getUserInput('Enter password: ');
     console.clear()
     const username = await getUserInput('Enter username: ');
     console.clear()
+    const hashedPassword = await hashPassword(plainTextPassword)
 
     const params = {
         TableName: 'VuLPES', 
@@ -72,7 +73,7 @@ async function addItemToDb(){
           AccountId: accountId,
           DoB: DoB,
           Name: nameDb,
-          Password: password,
+          Password: hashedPassword,
           Username: username
         },
       };
@@ -141,7 +142,7 @@ async function updateEntry(accountId, DoB, updatedFields){
     },
     ExpressionAttributeValues: {
       ':name': updatedFields.Name,
-      ':password': updatedFields.Password,
+      ':password': await hashPassword(updatedFields.Password),
       ':username': updatedFields.Username,
     },
     ReturnValues: 'ALL_NEW', // Specifying the desired return values
@@ -170,7 +171,7 @@ async function displayMenu() {
       await clearTerminal();
       await addItemToDb();
       break;
-      
+
     case '2':
       await clearTerminal();
       await listEntries();

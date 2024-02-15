@@ -12,7 +12,7 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - ~~Get started on the Web Application by creating a simple CLI GUI~~
 - ~~Allow the app to communicate with DynamoDB~~
 - ~~Allow the ability to push table entries into DynamoDB~~
-- Once entities can be pushed into the table, write code to salt and hash passwords, which will then be pushed to DynamoDB
+- ~~Once entities can be pushed into the table, write code to salt and hash passwords, which will then be pushed to DynamoDB~~
 - ~~Finish CRUD capabilties~~
     - ~~Create~~
     - ~~Read~~
@@ -23,5 +23,6 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - Ability to push *new items to DynamoDB table.
 - Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
 - Read entries from Database.
-- Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB)
+- Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB).
 - Ability to update entries in the Database table using Primary Key (accountId) and Sort Key (DoB). Currently updates **ONLY** Name, Password and Username.
+- Passwords entered into the database are now salted and hashed when a new entry is created or when an entry is being updated.
