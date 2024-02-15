@@ -13,10 +13,10 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - ~~Allow the app to communicate with DynamoDB~~
 - ~~Allow the ability to push table entries into DynamoDB~~
 - Once entities can be pushed into the table, write code to salt and hash passwords, which will then be pushed to DynamoDB
-- Finish CRUD capabilties
+- ~~Finish CRUD capabilties~~
     - ~~Create~~
     - ~~Read~~
-    - Update
+    - ~~Update~~
     - ~~Delete~~
 
 # Current Features
@@ -24,3 +24,4 @@ Progress is currently being tracked through the use of Trello. The board can be 
 - Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
 - Read entries from Database.
 - Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB)
+- Ability to update entries in the Database table using Primary Key (accountId) and Sort Key (DoB). Currently updates **ONLY** Name, Password and Username.

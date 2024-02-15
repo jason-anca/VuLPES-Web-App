@@ -126,20 +126,41 @@ async function deleteEntry(accountId, DoB) {
   }
 }
 
-async function updateEntry(accountId, DoB){
+async function updateEntry(accountId, DoB, updatedFields){
   const params = {
     TableName: 'VuLPES',
     Key: {
       AccountId: accountId,
       DoB: DoB,
     },
+    UpdateExpression: 'SET #name = :name, #password = :password, #username = :username',
+    ExpressionAttributeNames: {
+      '#name': 'Name',
+      '#password': 'Password',
+      '#username': 'Username',
+    },
+    ExpressionAttributeValues: {
+      ':name': updatedFields.Name,
+      ':password': updatedFields.Password,
+      ':username': updatedFields.Username,
+    },
+    ReturnValues: 'ALL_NEW', // Specifying the desired return values
   };
+
+  try {
+    const data = await dynamoDB.update(params).promise();
+    console.log('Entry updated successfully:', data);
+
+  } catch (error) {
+    console.error('Error updating entry:', error);
+  }
 }
 
 async function displayMenu() {
   console.log('1. Add Item to Database');
-  console.log('2. List all items in Database(non functional)');
+  console.log('2. List all items in Database');
   console.log('3. Delete entry in Database');
+  console.log('4. Update entry in Database');
   console.log('0. Quit');
 
   const userChoice = await getUserInput('\nEnter your choice: ')
@@ -149,10 +170,12 @@ async function displayMenu() {
       await clearTerminal();
       await addItemToDb();
       break;
+      
     case '2':
       await clearTerminal();
       await listEntries();
       break;
+
     case '3':
       await clearTerminal();
       await listEntries();
@@ -160,9 +183,21 @@ async function displayMenu() {
       const DoBToDelete = await getUserInput('Enter DoB to delete: ');
       await deleteEntry(accountIdToDelete, DoBToDelete);
       break;
+
+    case '4':
+      await clearTerminal();
+      await listEntries();
+      const accountIdToUpdate = await getUserInput('Enter AccountId to update: ');
+      const DoBToUpdate = await getUserInput('Enter DoB to update: ');
+      const updatedFields = {
+        Name: await getUserInput('Enter updated name: '),
+        Password: await getUserInput('Enter updated password: '),
+        Username: await getUserInput('Enter updated username: '),
+      };
+      await updateEntry(accountIdToUpdate,DoBToUpdate,updatedFields);
+      break;
     case '0':
       console.log('Goodbye!');
-      readLine.close();
       process.exit();
     default:
       console.log('Invalid Choice. Please select a valid option.');

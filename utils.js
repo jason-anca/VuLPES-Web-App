@@ -1,4 +1,5 @@
 const spawn = require('cross-spawn');
+// const bcrypt = require('bcryptjs');
 
 async function clearTerminal() {
   return new Promise(resolve => {
@@ -11,6 +12,13 @@ async function clearTerminal() {
   });
 }
 
+// async function hashPassword(password){
+//   const salt = await bcrypt.genSalt(5);
+//   const hashedPassword = await bcrypt.hash(password, salt);
+// }
+
+
 module.exports = {
   clearTerminal,
+  // hashPassword,
 };
