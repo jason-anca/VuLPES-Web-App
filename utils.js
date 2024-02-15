@@ -1,5 +1,5 @@
-const spawn = require('cross-spawn');
-const bcrypt = require('bcrypt');
+import spawn from 'cross-spawn';
+import bcrypt from 'bcrypt';
 
 async function clearTerminal() {
   return new Promise(resolve => {
@@ -19,7 +19,7 @@ async function hashPassword(password){
 }
 
 
-module.exports = {
+export {
   clearTerminal,
   hashPassword,
 };

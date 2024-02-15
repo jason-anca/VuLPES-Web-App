@@ -1,11 +1,11 @@
-require('dotenv').config();
-const readLine = require('readline');
-const AWS = require('aws-sdk');
-const { exit, rawListeners } = require('process');
-const { clearTerminal, hashPassword } = require('./utils')
+import dotenv from 'dotenv';
+import readLine from 'readline';
+import AWS from 'aws-sdk';
+import { exit } from 'process';
+import { clearTerminal, hashPassword } from './utils.js';
 
 AWS.config.update({
-  region: process.env.AWS_REGION,          // e.g., us-east-1
+  region: 'eu-west-1',          // e.g., us-east-1
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
@@ -48,11 +48,11 @@ async function itemExists(accountId, DoB) {
   }
 
 async function addItemToDb(){
-    await delay(1000);
+    await delay(1000); //adds a wait only because node is cramming the console with it's own stuff which I don't know how to turn off.
     const accountId = await getUserInput('Enter account ID: ');
     console.clear()
     const DoB = await getUserInput('Enter date of birth (yyyy-mm-dd): ');
-    const entryExists = await itemExists(accountId, DoB);
+    const entryExists = await itemExists(accountId, DoB); //Checks if an entry with what you entered already exists in the database. Done because NoSQL does not have a single key and 2 entries are needed. -> Primary and Sort.
     if(entryExists){
         console.log('Item with the same account ID and DoB already exists. Cannot add duplicate.');
         readline.close();
@@ -65,7 +65,7 @@ async function addItemToDb(){
     console.clear()
     const username = await getUserInput('Enter username: ');
     console.clear()
-    const hashedPassword = await hashPassword(plainTextPassword)
+    const hashedPassword = await hashPassword(plainTextPassword) //Calls the [hashPassword] function which hashes the password before the database entry is pushed. Mandatory practise to keep passwords safe. Ideally a better encryption algorithim would be used but bcrypt will do for now.
 
     const params = {
         TableName: 'VuLPES', 
