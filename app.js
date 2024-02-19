@@ -13,80 +13,80 @@ AWS.config.update({
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 const readline = readLine.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout
 })
 
-function delay(milliseconds){
-    return new Promise(resolve => {
-        setTimeout(resolve, milliseconds);
-    });
+function delay(milliseconds) {
+  return new Promise(resolve => {
+    setTimeout(resolve, milliseconds);
+  });
 }
 
 function getUserInput(prompt) {
-    return new Promise(resolve => {
-        readline.question(prompt, answer => { resolve(answer.trim());});
-    });
+  return new Promise(resolve => {
+    readline.question(prompt, answer => { resolve(answer.trim()); });
+  });
 }
 
 async function itemExists(accountId, DoB) {
-    const params = {
-      TableName: 'VuLPES',
-      Key: {
-        AccountId: accountId,
-        DoB: DoB
-      },
-    };
-  
-    try {
-      const data = await dynamoDB.get(params).promise();
-      return !!data.Item; // Return true if item exists, false otherwise
-    } catch (error) {
-      console.error('Error checking if item exists:', error);
-      return false;
-    }
+  const params = {
+    TableName: 'VuLPES',
+    Key: {
+      AccountId: accountId,
+      DoB: DoB
+    },
+  };
+
+  try {
+    const data = await dynamoDB.get(params).promise();
+    return !!data.Item; // Return true if item exists, false otherwise
+  } catch (error) {
+    console.error('Error checking if item exists:', error);
+    return false;
   }
+}
 
-async function addItemToDb(){
-    await delay(1000); //adds a wait only because node is cramming the console with it's own stuff which I don't know how to turn off.
-    const accountId = await getUserInput('Enter account ID: ');
-    console.clear()
-    const DoB = await getUserInput('Enter date of birth (yyyy-mm-dd): ');
-    const entryExists = await itemExists(accountId, DoB); //Checks if an entry with what you entered already exists in the database. Done because NoSQL does not have a single key and 2 entries are needed. -> Primary and Sort.
-    if(entryExists){
-        console.log('Item with the same account ID and DoB already exists. Cannot add duplicate.');
-        readline.close();
-        process.exit();
+async function addItemToDb() {
+  await delay(1000); //adds a wait only because node is cramming the console with it's own stuff which I don't know how to turn off.
+  const accountId = await getUserInput('Enter account ID: ');
+  console.clear()
+  const DoB = await getUserInput('Enter date of birth (yyyy-mm-dd): ');
+  const entryExists = await itemExists(accountId, DoB); //Checks if an entry with what you entered already exists in the database. Done because NoSQL does not have a single key and 2 entries are needed. -> Primary and Sort.
+  if (entryExists) {
+    console.log('Item with the same account ID and DoB already exists. Cannot add duplicate.');
+    readline.close();
+    process.exit();
+  }
+  console.clear()
+  const nameDb = await getUserInput('Enter name of person: ');
+  console.clear()
+  const plainTextPassword = await getUserInput('Enter password: ');
+  console.clear()
+  const username = await getUserInput('Enter username: ');
+  console.clear()
+  const hashedPassword = await hashPassword(plainTextPassword) //Calls the [hashPassword] function which hashes the password before the database entry is pushed. Mandatory practise to keep passwords safe. Ideally a better encryption algorithim would be used but bcrypt will do for now.
+
+  const params = {
+    TableName: 'VuLPES',
+    Item: {
+      AccountId: accountId,
+      DoB: DoB,
+      Name: nameDb,
+      Password: hashedPassword,
+      Username: username
+    },
+  };
+
+  dynamoDB.put(params, (err, data) => {
+    if (err) {
+      console.error('\nUnable to add item:', err);
+    } else {
+      console.log('\nItem added successfully:', data);
     }
-    console.clear()
-    const nameDb = await getUserInput('Enter name of person: ');
-    console.clear()
-    const plainTextPassword = await getUserInput('Enter password: ');
-    console.clear()
-    const username = await getUserInput('Enter username: ');
-    console.clear()
-    const hashedPassword = await hashPassword(plainTextPassword) //Calls the [hashPassword] function which hashes the password before the database entry is pushed. Mandatory practise to keep passwords safe. Ideally a better encryption algorithim would be used but bcrypt will do for now.
-
-    const params = {
-        TableName: 'VuLPES', 
-        Item: {
-          AccountId: accountId,
-          DoB: DoB,
-          Name: nameDb,
-          Password: hashedPassword,
-          Username: username
-        },
-      };
-      
-      dynamoDB.put(params, (err, data) => {
-        if (err) {
-          console.error('\nUnable to add item:', err);
-        } else {
-          console.log('\nItem added successfully:', data);
-        }
-        readline.close
-        process.exit();
-      });
+    readline.close
+    process.exit();
+  });
 }
 
 async function listEntries() {
@@ -127,7 +127,7 @@ async function deleteEntry(accountId, DoB) {
   }
 }
 
-async function updateEntry(accountId, DoB, updatedFields){
+async function updateEntry(accountId, DoB, updatedFields) {
   const params = {
     TableName: 'VuLPES',
     Key: {
@@ -195,11 +195,19 @@ async function displayMenu() {
         Password: await getUserInput('Enter updated password: '),
         Username: await getUserInput('Enter updated username: '),
       };
-      await updateEntry(accountIdToUpdate,DoBToUpdate,updatedFields);
+      await updateEntry(accountIdToUpdate, DoBToUpdate, updatedFields);
       break;
+      
+    case '99':
+      const hashString = await getUserInput('Enter a string: ')
+      const hashTest = await hashPassword(hashString)
+      console.log(hashTest)
+      break;
+
     case '0':
       console.log('Goodbye!');
       process.exit();
+      
     default:
       console.log('Invalid Choice. Please select a valid option.');
       break;
