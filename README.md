@@ -5,17 +5,19 @@ Progress is currently being tracked through the use of Trello. The board can be 
 
 # Getting Started
 ## How to run the app in this version:
-- Use the command: "node app.js"
-- Fill in the prompts asked in the command line.
+- Use the command: "npm start"
 
 # TO DO
-- Create a simple Web GUI which provides the same functionality as the terminal GUI
-
 
 # Current Features
+## Database
 - Ability to push *new items to DynamoDB table.
 - Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
 - Read entries from Database.
 - Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB).
 - Ability to update entries in the Database table using Primary Key (accountId) and Sort Key (DoB). Currently updates **ONLY** Name, Password and Username.
 - Passwords entered into the database are now salted and hashed when a new entry is created or when an entry is being updated.
+
+## Web App
+- Basic login with fixed credentials
+- Can display youtube embeds through the use of a submission box. Embeds are saved on the user's account so that the embed displays when the user logs back in after logging out.
