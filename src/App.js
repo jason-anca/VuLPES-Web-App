@@ -1,26 +1,25 @@
 // App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
-import Dashboard from './Dashboard';
-import Header from './components/PageHeader';
+import LoginPage from './components/LoginPage';
+import Dashboard from './components/Dashboard';
+import HomePage from './components/HomePage';
+import TeacherPage from './components/TeacherPage'
+import PageHeader from './components/header/PageHeader';
+import Footer from './components/footer/PageFooter'
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Router>
-      <div className="App">
-        <Header authenticated={authenticated} setAuthenticated={setAuthenticated} /> {/* Pass setAuthenticated as a prop */}
-        <Routes>
-          <Route path="/" element={authenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-          <Route path="/login" element={<Login setAuthenticated={setAuthenticated} />} />
-          <Route
-            path="/dashboard"
-            element={authenticated ? <Dashboard authenticated={authenticated} setAuthenticated={setAuthenticated} /> : <Navigate to="/login" />}
-          />
-        </Routes>
-      </div>
+      <PageHeader /> {/* This ensures the Header is always visible */}
+      <Routes>
+        <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/teacher/:id" element={<TeacherPage />} />
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+      </Routes>
+      <Footer/>
     </Router>
   );
 }
