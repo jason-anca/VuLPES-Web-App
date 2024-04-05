@@ -1,25 +1,9 @@
-import spawn from 'cross-spawn';
-import bcrypt from 'bcrypt';
-
-async function clearTerminal() {
-  return new Promise(resolve => {
-    const command = process.platform === 'win32' ? 'cls' : 'clear';
-    const child = spawn(command, [], { stdio: 'inherit', shell: true });
-
-    child.on('exit', (code, signal) => {
-      resolve();
-    });
+export const embedYouTubeVideos = (content) => {
+  // This regex matches both full YouTube URLs and shortened youtu.be URLs, capturing the video ID
+  const youTubeUrlRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu.be\/)([a-zA-Z0-9_-]+)(?=[^\w-]|$)/g;
+  
+  return content.replace(youTubeUrlRegex, (match, videoId) => {
+    // Directly use the captured videoId from the regex to construct the iframe embed
+    return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   });
-}
-
-async function hashPassword(password){
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  return hashedPassword;
-}
-
-
-export {
-  clearTerminal,
-  hashPassword,
 };

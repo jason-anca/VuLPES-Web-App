@@ -3,8 +3,24 @@ import TeacherCard from './teacherCard/TeacherCard';
 
 const HomePage = () => {
   const teachers = [
-    { id: 1, name: 'John Doe', imageUrl: '/images/user.png' },
-    { id: 2, name: 'Jane Smith', imageUrl: '/images/user.png' },
+    {
+      id: 1,
+      name: 'John Doe',
+      imageUrl: '/images/user.png',
+      subjects: [
+        { id: 'math', name: 'Mathematics' },
+        { id: 'science', name: 'Science' }
+      ]
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      imageUrl: '/images/user.png',
+      subjects: [
+        { id: 'history', name: 'History' },
+        { id: 'art', name: 'Art' }
+      ]
+    }
   ];
 
   return (

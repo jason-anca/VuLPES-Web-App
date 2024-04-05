@@ -1,10 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.png'; 
+import BackButton from '../backButton/BackButton';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const shouldShowBackButton = () => {
+    return location.pathname !== '/';
+  };
+
   return (
     <header style={styles.header}>
+      {shouldShowBackButton() && <BackButton />}
       <Link to="/" style={styles.logoLink}>
         <img src={logo} alt="Logo" style={styles.logo} />
         <h1 style={styles.title}>VuLPES</h1>
