@@ -2,3 +2,37 @@ body {
   background-color: #333; /* Set to your preferred dark shade */
   color: #FFA500; /* This sets the default text color to orange */
 }
+
+.signup-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #333; /* Dark background */
+  color: #fff; /* Light text */
+  border-radius: 8px;
+}
+
+.signup-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Light border */
+  background-color: #444; /* Lighter dark background */
+  color: #fff; /* Light text */
+}
+
+.signup-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FFA500; /* Orange background */
+  color: #333; /* Dark text */
+  cursor: pointer;
+}
+
+.error {
+  color: #ff4500; /* Orange-red error messages */
+  margin-bottom: 15px;
+}

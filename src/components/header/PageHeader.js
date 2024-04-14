@@ -26,6 +26,9 @@ const Header = () => {
           <li style={styles.navItem}>
             <Link to="/login" style={styles.navLink}>Login</Link>
           </li>
+          <li style={styles.navItem}>
+            <Link to="/signup" style={styles.navLink}>Sign Up</Link>
+          </li>
           {/* Add more navigation links as needed */}
         </ul>
       </nav>

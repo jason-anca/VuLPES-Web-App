@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vulpeswebapp-dev-8de7c-authRole",
+      "UnauthRoleArn": "arn:aws:iam::208196343617:role/amplify-vulpeswebapp-dev-8de7c-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::208196343617:role/amplify-vulpeswebapp-dev-8de7c-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-vulpeswebapp-dev-8de7c-deployment",
+      "UnauthRoleName": "amplify-vulpeswebapp-dev-8de7c-unauthRole",
+      "StackName": "amplify-vulpeswebapp-dev-8de7c",
+      "StackId": "arn:aws:cloudformation:eu-west-1:208196343617:stack/amplify-vulpeswebapp-dev-8de7c/c648e8e0-f5a5-11ee-9d12-0a230ed456a5",
+      "AmplifyAppId": "d3amus4tm2ahsn"
+    },
+    "categories": {
+      "auth": {
+        "vulpeswebapp3f0bacaa": {}
+      }
+    }
+  }
+}
