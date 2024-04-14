@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TeacherCard from './teacherCard/TeacherCard';
 
 const HomePage = () => {
@@ -23,13 +23,30 @@ const HomePage = () => {
     }
   ];
 
+  // State to hold the search query
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter teachers based on search query
+  const filteredTeachers = teachers.filter(teacher =>
+    teacher.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div style={styles.page}>
       <div style={styles.instructions}>
         <p>Click on a teacher's card to view their page.</p>
       </div>
+      <div style={styles.searchBox}>
+        <input
+          type="text"
+          placeholder="Search Teachers"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.searchInput}
+        />
+      </div>
       <div style={styles.cardContainer}>
-        {teachers.map(teacher => (
+        {filteredTeachers.map(teacher => (
           <TeacherCard key={teacher.id} teacher={teacher} />
         ))}
       </div>
@@ -39,10 +56,10 @@ const HomePage = () => {
 
 const styles = {
   page: {
-    color: '#FFA500', // Orange text color for consistency with the theme
-    backgroundColor: '#333', // Dark background to match the theme
+    color: '#FFA500',
+    backgroundColor: '#333',
     padding: '20px',
-    minHeight: '100vh', // Ensure it takes minimum full height
+    minHeight: '100vh',
   },
   instructions: {
     textAlign: 'center',
@@ -56,13 +73,16 @@ const styles = {
     justifyContent: 'center',
     padding: '20px',
   },
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    padding: '20px',
-    backgroundColor: '#121212', // Dark mode background
+  searchBox: {
+    textAlign: 'center',
+    margin: '20px 0',
+  },
+  searchInput: {
+    fontSize: '16px',
+    padding: '10px 20px',
+    width: '300px',
+    borderRadius: '5px',
+    border: '2px solid #FFA500',
   },
 };
 
