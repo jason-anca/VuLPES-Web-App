@@ -37,13 +37,14 @@ const styles = {
         marginBottom: '40px',
     },
     titleInput: {
-        width: '100%',
+        width: '977px',
         padding: '10px',
         marginBottom: '20px',
         fontSize: '16px',
     },
     quillEditor: {
         height: '200px',
+        width: '1000px',
         marginBottom: '60px',
     },
     submitButton: {

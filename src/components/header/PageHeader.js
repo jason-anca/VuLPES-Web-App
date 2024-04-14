@@ -4,7 +4,6 @@ import logo from '../../images/logo.png';
 import BackButton from '../backButton/BackButton';
 
 const Header = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const shouldShowBackButton = () => {
