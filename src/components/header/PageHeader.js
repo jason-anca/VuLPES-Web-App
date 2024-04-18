@@ -6,13 +6,14 @@ import BackButton from '../backButton/BackButton';
 const Header = () => {
   const location = useLocation();
 
-  const shouldShowBackButton = () => {
+  // Only shows the back button when the path is not the root.
+  const ShowBackButton = () => {
     return location.pathname !== '/';
   };
 
   return (
     <header style={styles.header}>
-      {shouldShowBackButton() && <BackButton />}
+      {ShowBackButton() && <BackButton />}
       <Link to="/" style={styles.logoLink}>
         <img src={logo} alt="Logo" style={styles.logo} />
         <h1 style={styles.title}>VuLPES</h1>
@@ -28,7 +29,6 @@ const Header = () => {
           <li style={styles.navItem}>
             <Link to="/signup" style={styles.navLink}>Sign Up</Link>
           </li>
-          {/* Add more navigation links as needed */}
         </ul>
       </nav>
     </header>
@@ -52,8 +52,8 @@ const styles = {
   },
   logo: {
     marginRight: '10px',
-    width: '50px', // Adjust size as needed
-    height: '50px', // Adjust size as needed
+    width: '50px',
+    height: '50px', 
   },
   title: {
     margin: 0,

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import DOMPurify from 'dompurify';
-import { embedYouTubeVideos } from '../utils';
+// import DOMPurify from 'dompurify';
+// import { embedYouTubeVideos } from '../utils';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PostForm from './postForm/PostForm';
@@ -17,36 +17,39 @@ const SubjectPage = () => {
     }, [teacherId, subjectUniqueId]);
 
     useEffect(() => {
-        localStorage.setItem(`posts_${teacherId}_${subjectUniqueId}`, JSON.stringify(posts));
+        try {
+            localStorage.setItem(`posts_${teacherId}_${subjectUniqueId}`, JSON.stringify(posts));
+        } catch (error) {
+            console.error('Failed to save posts:', error);
+        }
     }, [posts]);
 
-    const addPost = (title, description) => {
+    const addPost = useCallback((title, description) => {
         const newPost = {
-            id: `post_${posts.length + 1}`,
+            id: `post_${Date.now()}`,
             title,
             description,
             timestamp: new Date().toISOString(),
         };
-        setPosts([...posts, newPost]);
-    };
+        setPosts(prevPosts => [newPost, ...prevPosts]); 
+    }, []);
 
     const deletePost = (id) => {
         const updatedPosts = posts.filter(post => post.id !== id);
         setPosts(updatedPosts);
     };
 
-    const onDragEnd = (result) => {
+    const onDragEnd = useCallback((result) => {
         if (!result.destination) return;
         const items = Array.from(posts);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
         setPosts(items);
-    };
+    }, [posts]);
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <div style={styles.container}>
-                <h2 style={styles.heading}>Create a New Post</h2>
                 <PostForm addPost={addPost} />
                 <PostList posts={posts} deletePost={deletePost} />
             </div>
@@ -60,9 +63,6 @@ const styles = {
         backgroundColor: '#282c34',
         color: 'white',
         minHeight: '100vh',
-    },
-    heading: {
-        marginBottom: '20px',
     },
 };
 

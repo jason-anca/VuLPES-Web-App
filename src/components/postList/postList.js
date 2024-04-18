@@ -2,6 +2,7 @@ import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import DOMPurify from 'dompurify';
 import { embedYouTubeVideos } from '../../utils';
+import '../../css/PostList.css';  // Ensure this is correctly imported, cause I keep putting the wrong path
 
 function PostList({ posts, deletePost }) {
     const createMarkup = (htmlContent) => {
@@ -15,23 +16,26 @@ function PostList({ posts, deletePost }) {
 
     return (
         <Droppable droppableId="posts">
-            {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} style={styles.postsContainer}>
+            {(provided, snapshot) => (
+                <div {...provided.droppableProps} ref={provided.innerRef} className="postsContainer">
                     {posts.map((post, index) => (
                         <Draggable key={post.id} draggableId={post.id} index={index}>
                             {(provided) => (
                                 <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    style={{ ...provided.draggableProps.style, ...styles.postCard }}
-                                >
-                                    <h3 style={styles.postTitle}>{post.title}</h3>
-                                    <div dangerouslySetInnerHTML={createMarkup(post.description)} />
-                                    <p>{new Date(post.timestamp).toLocaleString()}</p>
-                                    <button onClick={() => deletePost(post.id)} style={styles.deleteButton}>
-                                        <i className="fas fa-trash"></i>
-                                    </button>
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                className="postCard"
+                                style={provided.draggableProps.style}
+                            >
+                                <span className="grippy" {...provided.dragHandleProps}></span>
+                                <h3>{post.title}</h3>
+                                <div dangerouslySetInnerHTML={createMarkup(post.description)} />
+                                <div className="footerContainer">
+                                        <span className="timestamp">{new Date(post.timestamp).toLocaleString()}</span>
+                                        <button onClick={() => deletePost(post.id)} className="deleteButton">
+                                            <i className="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </Draggable>
@@ -42,27 +46,5 @@ function PostList({ posts, deletePost }) {
         </Droppable>
     );
 }
-
-const styles = {
-    postsContainer: {
-        marginTop: '20px',
-    },
-    postCard: {
-        backgroundColor: '#333',
-        padding: '20px',
-        borderRadius: '5px',
-        marginBottom: '20px',
-        cursor: 'grab',  // Adjust cursor to indicate draggable functionality
-    },
-    postTitle: {
-        marginTop: '0',
-    },
-    deleteButton: {
-        cursor: 'pointer',
-        background: 'none',
-        border: 'none',
-        color: 'red',
-    },
-};
 
 export default PostList;

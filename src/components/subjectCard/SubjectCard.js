@@ -1,4 +1,3 @@
-// components/SubjectCard.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,12 +27,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    // Add more styling as needed
   },
   title: {
     margin: '0',
   },
-  // Add more styles if necessary
 };
 
 export default SubjectCard;

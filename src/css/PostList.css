@@ -1,0 +1,85 @@
+.postsContainer {
+    margin-top: 20px;
+}
+
+.postCard {
+    background-color: #333;
+    padding: 20px;
+    padding-left: 40px;  /* Add padding to prevent text overlap */
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+    width: 750px;
+    overflow: hidden;  /* Ensures no content spills out */
+    word-wrap: break-word;  /* Breaks long words that would overflow */
+    position: relative;  /* Needed for absolute positioning of the drag handle */
+    border: 1px solid transparent;  /* Maintain layout with invisible border */
+}
+
+.grippy {
+    display: block;  /* Changed from inline-block to block for better control */
+    width: 30px;  /* Width of the grippy */
+    height: 85%;  /* Height of the grippy */
+    overflow: hidden;
+    line-height: 4px;
+    padding: 3px;
+    cursor: grab; /* The cursor indicates a move action */
+    margin-top: 0;  /* Adjusted for better alignment */
+    margin-right: 4px;  /* Spacing from the text */
+    font-size: 12px;
+    font-family: 'Ubuntu', monospace;  /* Monospace to align dots vertically */
+    letter-spacing: 4px;  /* Adjust letter-spacing for better dot appearance */
+    color: #cccccc;
+    text-shadow: 1px 0 1px black;
+    position: absolute;  /* Absolute position within the post card */
+    left: 10px;  /* Position from the left */
+    bottom: 10px;
+}
+
+.grippy::after {
+    content: '.. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. ..';  /* Dots separated by spaces to create the grippy pattern */
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.postTitle {
+    white-space: nowrap;  /* Prevents the title from wrapping */
+    overflow: hidden;  /* Hides overflow */
+    text-overflow: ellipsis;  /* Adds an ellipsis to overflowing text */
+    width: calc(100% - 40px);  /* Adjust width to not overlap with drag handle */
+}
+
+.postPlaceholder {
+    height: 20px;
+    background-color: rgba(255, 165, 0, 0.5);  /* Transparent orange */
+    margin: 10px 0;
+    visibility: hidden;  /* Initially hidden */
+}
+
+.quillEditor {
+    /* Assuming this class is for the ReactQuill component in PostForm */
+    min-height: 200px;  /* Minimum height */
+    max-height: 400px;  /* Maximum height, beyond this it should scroll */
+    overflow-y: auto;  /* Allows scrolling vertically */
+}
+
+.footerContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px;  /* Space from content to footer */
+}
+
+.timestamp {
+    margin-right: 10px;
+    font-weight: normal;
+    color: #FFA500;  /* Matching theme color */
+}

@@ -7,19 +7,11 @@ const HomePage = () => {
       id: 1,
       name: 'John Doe',
       imageUrl: '/images/user.png',
-      subjects: [
-        { id: 'math', name: 'Mathematics' },
-        { id: 'science', name: 'Science' }
-      ]
     },
     {
       id: 2,
       name: 'Jane Smith',
-      imageUrl: '/images/user.png',
-      subjects: [
-        { id: 'history', name: 'History' },
-        { id: 'art', name: 'Art' }
-      ]
+      imageUrl: '/images/user.png', 
     }
   ];
 

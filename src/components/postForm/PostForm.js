@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+function hide() {
+    var x = document.getElementById("editor");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
 function PostForm({ addPost }) {
     const [postTitle, setPostTitle] = useState('');
     const [postDescription, setPostDescription] = useState('');
@@ -14,23 +23,27 @@ function PostForm({ addPost }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={styles.form}>
-            <div style={styles.inlineContainer}>
-                <input
-                    type="text"
-                    value={postTitle}
-                    onChange={(e) => setPostTitle(e.target.value)}
-                    placeholder="Post Title"
-                    style={styles.titleInput}
+        <div>
+            <button type="submit" style={styles.submitButton} onClick={hide}>Toggle</button>
+            <form id="editor" onSubmit={handleSubmit} style={styles.form}>
+                <div style={styles.inlineContainer}>
+                    <h2 style={styles.heading}>Create a New Post</h2>
+                    <input
+                        type="text"
+                        value={postTitle}
+                        onChange={(e) => setPostTitle(e.target.value)}
+                        placeholder="Post Title"
+                        style={styles.titleInput}
+                    />
+                </div>
+                <ReactQuill
+                    value={postDescription}
+                    onChange={setPostDescription}
+                    style={styles.quillEditor}
                 />
                 <button type="submit" style={styles.submitButton}>Post</button>
-            </div>
-            <ReactQuill
-                value={postDescription}
-                onChange={setPostDescription}
-                style={styles.quillEditor}
-            />
-        </form>
+            </form>
+        </div>
     );
 }
 
@@ -41,19 +54,23 @@ const styles = {
     inlineContainer: {
         display: 'flex',
         alignItems: 'center',
-        marginBottom: '20px',  // Adjust spacing as needed
+        marginBottom: '20px',
+        position: 'relative'
     },
-    
+
     titleInput: {
-        width: '977px', 
+        width: '977px',
         padding: '10px',
-        marginRight: '10px',  // Add some space between the input and the button
+        marginRight: '10px',
+        marginTop: '100px',
         fontSize: '16px',
+        position: 'absolute'
     },
     quillEditor: {
         height: '200px',
-        width: '1000px',  // Adjust based on your layout needs
-        marginBottom: '60px'
+        width: '1000px',
+        marginBottom: '60px',
+        marginTop: '50px',
     },
     submitButton: {
         padding: '10px 20px',
@@ -62,6 +79,11 @@ const styles = {
         border: 'none',
         borderRadius: '5px',
         cursor: 'pointer',
+        position: 'relative'
+    },
+    heading: {
+        position: 'relative',
+        marginBottom: '20px',
     },
 };
 

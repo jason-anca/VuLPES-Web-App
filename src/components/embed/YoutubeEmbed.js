@@ -11,6 +11,9 @@ function YoutubeEmbed() {
     const [embedUrl, setEmbedUrl] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Grabs the last YouTube link from local storage to simulate the posts being stored in a database.
+    //Embeds the videos in the created posts
+
     useEffect(() => {
         const lastLink = localStorage.getItem('lastYoutubeLink');
         if (lastLink) {
@@ -20,6 +23,8 @@ function YoutubeEmbed() {
         }
     }, []);
 
+    // Handles the submission of a YouTube link which is then embedded in the post and stored in local storage
+    // Also handles invalid youtube links
     const handleSubmit = (e) => {
         e.preventDefault();
         const youtubeId = getYoutubeIdFromLink(youtubeLink);
