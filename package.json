@@ -13,6 +13,7 @@
     "amazon-cognito-identity-js": "^6.3.12",
     "aws-amplify": "^6.0.27",
     "aws-sdk": "^2.1569.0",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "dompurify": "^3.0.11",
     "path": "^0.12.7",

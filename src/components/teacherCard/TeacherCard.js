@@ -10,9 +10,13 @@ const TeacherCard = ({ teacher }) => {
 
   console.log(`Loading image for ${teacher.name}: ${teacher.imageUrl}`); // Debugging line
 
+  const handleImageError = (e) => {
+    console.log(`Error loading image for ${teacher.name}`);
+};
+
   return (
     <div style={styles.card} onClick={handleClick}>
-      <img src={teacher.imageUrl} alt={teacher.name} style={styles.image} />
+      <img src={teacher.imageUrl} alt={teacher.name} style={styles.image} onError={handleImageError} />
       <h3 style={styles.name}>{teacher.name}</h3>
     </div>
   );

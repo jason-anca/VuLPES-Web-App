@@ -1,21 +1,41 @@
-// LoginPage.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const LoginPage = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate();
+function LoginForm() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    navigate('/'); // Navigate to the homepage after login
-  };
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.post('https://2v9bujq237.execute-api.eu-west-1.amazonaws.com/prod/login', {
+                username,
+                password
+            });
+            localStorage.setItem('token', data.token);
+            console.log('Login successful!');
+            // Redirect user or perform other actions
+        } catch (err) {
+            setError('Failed to login');
+            console.error('Login failed:', err.response ? err.response.data.error : "Server error");
+        }
+    };
 
-  return (
-    <div>
-      <h1>Login</h1>
-      <button onClick={handleLogin}>Login</button>
-    </div>
-  );
-};
+    return (
+        <form onSubmit={handleLogin}>
+            <label>
+                Username:
+                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+            </label>
+            <label>
+                Password:
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+            </label>
+            <button type="submit">Login</button>
+            {error && <p>{error}</p>}
+        </form>
+    );
+}
 
-export default LoginPage;
+export default LoginForm;

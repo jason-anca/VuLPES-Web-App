@@ -1,7 +1,7 @@
 # VuLPES-Web-App
 VuLPES is my final year project in SETU and the idea behind this project is to create a low-cost platform and infrastructure where course materials can be uploaded by educators and viewed by students in a learning environment. This infrastructure is to be composed of a JavaScript Application that's backed by a database and has hardware components like a Raspberry Pi to host the Web App and an additional Raspberry Pi to act as a content manager. The secondary Pi in this case would act like a router so that students can be connected to the internet, but viewable content is managed through a firewall.
 
-Progress is currently being tracked through the use of Trello. The board can be found [here.]([url](https://trello.com/b/Qr1hJJA0/vulpes)https://trello.com/b/Qr1hJJA0/vulpes)
+Progress is currently being tracked through the use of Trello. The board can be found [here.] ([url](https://trello.com/b/Qr1hJJA0/vulpes)https://trello.com/b/Qr1hJJA0/vulpes)
 
 # Getting Started
 ## How to run the app in this version:
@@ -11,13 +11,9 @@ Progress is currently being tracked through the use of Trello. The board can be 
 
 # Current Features
 ## Database
-- Ability to push *new items to DynamoDB table.
-- Validation checking if partition key and sort key already exist in the database. Prevents duplicates.
-- Read entries from Database.
-- Ability to delete entries from the Database using Primary Key (accountId) and Sort Key (DoB).
-- Ability to update entries in the Database table using Primary Key (accountId) and Sort Key (DoB). Currently updates **ONLY** Name, Password and Username.
-- Passwords entered into the database are now salted and hashed when a new entry is created or when an entry is being updated.
+- None, anymore. Had to rejig the project so now I need to handle it a little better now that I have an idea of the project structure.
 
 ## Web App
-- Basic login with fixed credentials
-- Can display youtube embeds through the use of a submission box. Embeds are saved on the user's account so that the embed displays when the user logs back in after logging out.
+- Home Page with list of Teachers which can be filtered with a filter box by typing.
+- Ability to click a Teacher's Card to then navigate to their Subject Page. The page contains a dropdown menu which allows you to view subjects taught by the teacher which is filtered by "class".
+- Clicking on a subject will allow you to view the subject page where a teacher may post content related to their subject. Posts can embed YouTube links for ease of viewing. Posts are displayed in order of post date descending so that new posts are always on top but can be dragged and dropped. This allows the reorganization of posts if one deems it necessary. 
