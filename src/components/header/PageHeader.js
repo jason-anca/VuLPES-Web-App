@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import logo from '../../images/logo.png'; 
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../images/logo.png';
 import BackButton from '../backButton/BackButton';
 
 const Header = () => {
   const location = useLocation();
+  const { user, logout } = useAuth();
 
-  // Only shows the back button when the path is not the root.
   const ShowBackButton = () => {
     return location.pathname !== '/';
   };
@@ -23,12 +24,21 @@ const Header = () => {
           <li style={styles.navItem}>
             <Link to="/" style={styles.navLink}>Home</Link>
           </li>
-          <li style={styles.navItem}>
-            <Link to="/login" style={styles.navLink}>Login</Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/signup" style={styles.navLink}>Sign Up</Link>
-          </li>
+          {!user && (
+            <li style={styles.navItem}>
+              <Link to="/login" style={styles.navLink}>Login</Link>
+            </li>
+          )}
+          {user && user.role === 'admin' && (
+            <li style={styles.navItem}>
+              <Link to="/admin" style={styles.navLink}>Admin Panel</Link>
+            </li>
+          )}
+          {user && (
+            <li style={styles.navItem}>
+              <button onClick={logout} style={styles.logoutButton}>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
@@ -41,23 +51,23 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 20px',
-    backgroundColor: '#333', // Dark background
-    borderBottom: '2px solid #FFA500', // Orange border
+    backgroundColor: '#333',
+    borderBottom: '2px solid #FFA500',
   },
   logoLink: {
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    color: '#FFA500', // Orange text for the application name
+    color: '#FFA500',
   },
   logo: {
     marginRight: '10px',
     width: '50px',
-    height: '50px', 
+    height: '50px',
   },
   title: {
     margin: 0,
-    color: '#FFA500', // Ensure the title also adheres to the color scheme
+    color: '#FFA500',
   },
   navList: {
     listStyle: 'none',
@@ -70,9 +80,17 @@ const styles = {
   },
   navLink: {
     textDecoration: 'none',
-    color: '#FFA500', // Orange links
+    color: '#FFA500',
     fontSize: '16px',
   },
+  logoutButton: {
+    background: 'none',
+    border: 'none',
+    color: '#FFA500',
+    cursor: 'pointer',
+    fontSize: '16px',
+    textDecoration: 'underline'
+  }
 };
 
 export default Header;

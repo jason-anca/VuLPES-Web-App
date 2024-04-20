@@ -1,41 +1,92 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-function LoginForm() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const { data } = await axios.post('https://2v9bujq237.execute-api.eu-west-1.amazonaws.com/prod/login', {
-                username,
-                password
-            });
-            localStorage.setItem('token', data.token);
-            console.log('Login successful!');
-            // Redirect user or perform other actions
-        } catch (err) {
-            setError('Failed to login');
-            console.error('Login failed:', err.response ? err.response.data.error : "Server error");
-        }
-    };
+  const handleLogin = () => {
+    const users = JSON.parse(localStorage.getItem('users'));
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+      setUser({ username: user.username, role: user.role });
+      localStorage.setItem('user', JSON.stringify({ username: user.username, role: user.role }));
+      if (user.role === 'admin') {
+        navigate('/admin'); // Redirect to Admin Panel if user is an admin
+      } else {
+        navigate('/'); // Redirect to homepage or other appropriate page for non-admin users
+      }
+    } else {
+      alert('Invalid credentials');
+    }
+  };
 
-    return (
-        <form onSubmit={handleLogin}>
-            <label>
-                Username:
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            <button type="submit">Login</button>
-            {error && <p>{error}</p>}
-        </form>
-    );
-}
+  return (
+    <div style={styles.page}>
+      <div style={{ maxWidth: '300px', margin: '20px auto' }}>
+        <h2 style={{ color: '#FFA500' }}>Login</h2>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={styles.labelStyle}>Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={styles.inputStyle}
+          />
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={styles.labelStyle}>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.inputStyle}
+          />
+        </div>
+        <button onClick={handleLogin} style={styles.buttonStyle}>Login</button>
+      </div>
+    </div>
+  );
+};
 
-export default LoginForm;
+const styles = {
+  page: {
+    color: '#FFA500',
+    backgroundColor: '#333',
+    padding: '20px',
+    minHeight: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputStyle: {
+    width: '100%',
+    padding: '8px',
+    margin: '5px 0',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    backgroundColor: '#222',
+    borderColor: '#FFA500',
+    color: '#FFA500',
+    outline: 'none'
+  },
+  buttonStyle: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#FFA500',
+    color: '#333',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold'
+  },
+  labelStyle: {
+    display: 'block',
+    marginBottom: '5px',
+    color: '#FFA500'
+  }
+};
+
+export default LoginPage;
