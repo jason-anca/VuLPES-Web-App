@@ -5,6 +5,7 @@ const SubjectCard = ({ subject, teacherId }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    console.log("Navigating to Subject Page with:", teacherId, subject.uniqueId);
     navigate(`/teacher/${teacherId}/subject/${subject.uniqueId}`);
   };
 

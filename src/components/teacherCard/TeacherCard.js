@@ -5,6 +5,7 @@ const TeacherCard = ({ teacher }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    console.log("Navigating with teacher ID:", teacher.id);
     navigate(`/teacher/${teacher.id}`);
   };
 

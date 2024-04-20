@@ -36,7 +36,7 @@ function App() {
         <PageHeader />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/teacher/:id" element={<TeacherPage />} />
+          <Route path="/teacher/:teacherId" element={<TeacherPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/subject/:subjectId" element={<SubjectPage />} />
           <Route path="/teacher/:teacherId/subject/:subjectUniqueId" element={<SubjectPage />} />

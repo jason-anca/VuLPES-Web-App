@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-// import DOMPurify from 'dompurify';
-// import { embedYouTubeVideos } from '../utils';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PostForm from './postForm/PostForm';

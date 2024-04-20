@@ -1,24 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TeacherCard from './teacherCard/TeacherCard';
 
 const HomePage = () => {
-  const teachers = [
-    {
-      id: 1,
-      name: 'John Doe',
-      imageUrl: '/images/user.png',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      imageUrl: '/images/user.png', 
-    }
-  ];
-
-  // State to hold the search query
+  const [teachers, setTeachers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter teachers based on search query
+  useEffect(() => {
+    const loadedTeachers = JSON.parse(localStorage.getItem('teachers')) || [];
+    setTeachers(loadedTeachers);
+  }, []);
+
   const filteredTeachers = teachers.filter(teacher =>
     teacher.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
