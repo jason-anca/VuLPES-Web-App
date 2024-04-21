@@ -8,7 +8,7 @@ VuLPES is my final year project in SETU and the idea behind this project is to c
 
 # Current Features
 ## Database
-- None, anymore. Had to rejig the project so now I need to handle it a little better now that I have an idea of the project structure.
+- Data is currently stored in localStorage since I wrecked my head trying to handle Authentication properly so now I'm handling it on the severside on the web app rather than through the cloud, which is how I wanted to do it.
 
 ## Web App
 - Home Page with list of Teachers which can be filtered with a filter box by typing.

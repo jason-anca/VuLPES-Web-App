@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useAuth } from '../../contexts/AuthContext';
 
-function hide() {
+function toggleEditor() {
     var x = document.getElementById("editor");
-    if (x.style.display === "none") {
-        x.style.display = "block";
+    if (x === null){
+        return
     } else {
-        x.style.display = "none";
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
 }
 
 function PostForm({ addPost }) {
+    const { user } = useAuth();
     const [postTitle, setPostTitle] = useState('');
     const [postDescription, setPostDescription] = useState('');
 
@@ -22,9 +28,14 @@ function PostForm({ addPost }) {
         setPostDescription('');
     };
 
+    if (!user) {
+        console.log("You must be logged in to post content and view the form.");
+        toggleEditor();
+        return null;
+    }
+
     return (
-        <div>
-            <button type="submit" style={styles.submitButton} onClick={hide}>Toggle</button>
+        <div id="editor">
             <form id="editor" onSubmit={handleSubmit} style={styles.form}>
                 <div style={styles.inlineContainer}>
                     <h2 style={styles.heading}>Create a New Post</h2>

@@ -3,8 +3,10 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import DOMPurify from 'dompurify';
 import { embedYouTubeVideos } from '../../utils';
 import '../../css/PostList.css';  // Ensure this is correctly imported, cause I keep putting the wrong path
+import { useAuth } from '../../contexts/AuthContext';
 
 function PostList({ posts, deletePost }) {
+    const { user } = useAuth();
     const createMarkup = (htmlContent) => {
         const embeddedContent = embedYouTubeVideos(htmlContent);
         const sanitizedContent = DOMPurify.sanitize(embeddedContent, {
@@ -15,24 +17,24 @@ function PostList({ posts, deletePost }) {
     };
 
     return (
-        <Droppable droppableId="posts">
+        <Droppable droppableId="posts" isDropDisabled={!user}>
             {(provided, snapshot) => (
                 <div {...provided.droppableProps} ref={provided.innerRef} className="postsContainer">
                     {posts.map((post, index) => (
-                        <Draggable key={post.id} draggableId={post.id} index={index}>
+                        <Draggable key={post.id} draggableId={post.id} index={index} isDragDisabled={!user}>
                             {(provided) => (
                                 <div
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 className="postCard"
-                                style={provided.draggableProps.style}
+                                style={{ ...provided.draggableProps.style, cursor: user ? 'grab' : 'default' }}
                             >
                                 <span className="grippy" {...provided.dragHandleProps}></span>
                                 <h3>{post.title}</h3>
                                 <div dangerouslySetInnerHTML={createMarkup(post.description)} />
                                 <div className="footerContainer">
                                         <span className="timestamp">{new Date(post.timestamp).toLocaleString()}</span>
-                                        <button onClick={() => deletePost(post.id)} className="deleteButton">
+                                        <button id="deleteButton" onClick={() => deletePost(post.id)} className="deleteButton">
                                             <i className="fas fa-trash"></i> Delete
                                         </button>
                                     </div>
