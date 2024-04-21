@@ -11,6 +11,10 @@ const LoginPage = () => {
   const handleLogin = () => {
     const users = JSON.parse(localStorage.getItem('users'));
     const user = users.find(u => u.username === username && u.password === password);
+
+    console.log('Attempting login with:', username, password); // Debugging output
+    console.log('User found:', user); // Debugging output
+
     if (user) {
       setUser({ username: user.username, role: user.role });
       localStorage.setItem('user', JSON.stringify({ username: user.username, role: user.role }));

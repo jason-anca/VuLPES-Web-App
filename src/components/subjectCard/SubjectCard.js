@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router-dom';
 const SubjectCard = ({ subject, teacherId }) => {
   const navigate = useNavigate();
 
+  console.log("Received IDs in SubjectCard:", teacherId, subject.uniqueId);
+
   const handleClick = () => {
-    console.log("Navigating to Subject Page with:", teacherId, subject.uniqueId);
-    navigate(`/teacher/${teacherId}/subject/${subject.uniqueId}`);
+    if (teacherId && subject.uniqueId) {
+      console.log("Navigating to Subject Page with:", teacherId, subject.uniqueId);
+      navigate(`/teacher/${teacherId}/subject/${subject.uniqueId}`);
+    } else {
+      console.error("Missing IDs:", { teacherId, subjectUniqueId: subject.uniqueId });
+    }
   };
 
   return (

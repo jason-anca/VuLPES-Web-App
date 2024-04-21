@@ -1,0 +1,39 @@
+.page {
+    color: #FFA500;
+    background-color: #333;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.subjectsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.labelStyle {
+    margin-right: 10px;
+    color: #FFA500;
+    font-size: 18px;
+}
+
+.selectStyle {
+    margin-left: 10px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: #333;
+    border-color: #FFA500;
+    color: #FFA500;
+    outline: none;
+}
+
+.selectStyle:hover {
+    background-color: #555;
+}
+
+.selectStyle:focus {
+    border-color: #FFA500;
+    box-shadow: 0 0 5px #FFA500;
+}

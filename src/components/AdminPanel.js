@@ -23,22 +23,49 @@ const AdminPanel = () => {
     };
 
     const handleSubmit = () => {
-        if (!username || !password || !name || password !== confirmPassword) {
-            showToast("Please fill all fields and make sure passwords match.", "error");
+        if (!username || !password || !name || password !== confirmPassword || (role === 'teacher' && subjects.some(subject => !subject.name || !subject.classYear))) {
+            showToast("Please fill all fields correctly and ensure all subjects are complete.", "error");
             return;
         }
+    
         const newUser = {
             id: Date.now().toString(),
             username,
             password,
             name,
             role,
-            subjects
+            subjects: role === 'teacher' ? subjects.map(subject => ({
+                name: subject.name,
+                classYear: subject.classYear,
+                uniqueId: subject.uniqueId || `${subject.name.replace(/\s+/g, '').toLowerCase()}_${Date.now()}`
+            })) : []
         };
-        const updatedTeachers = [...teachers, newUser];
-        localStorage.setItem('teachers', JSON.stringify(updatedTeachers));
-        setTeachers(updatedTeachers);
-        showToast(`${role.charAt(0).toUpperCase() + role.slice(1)} added successfully!`, "success");
+    
+        if (role === 'teacher') {
+            const teachersStr = localStorage.getItem('teachers') || '[]';
+            const teachers = JSON.parse(teachersStr);
+            teachers.push(newUser);
+            localStorage.setItem('teachers', JSON.stringify(teachers));
+            setTeachers(teachers);
+        }
+    
+        // Adding to users for login purposes
+        const usersStr = localStorage.getItem('users') || '[]';
+        const users = JSON.parse(usersStr);
+        const userToAdd = {
+            username,
+            password,
+            role
+        };
+    
+        if (!users.some(user => user.username === username)) {
+            users.push(userToAdd);
+            localStorage.setItem('users', JSON.stringify(users));
+            showToast(`${role.charAt(0).toUpperCase() + role.slice(1)} added successfully!`, "success");
+        } else {
+            showToast("User already exists. Please choose a different username.", "error");
+        }
+    
         clearForm();
     };
 
@@ -64,7 +91,12 @@ const AdminPanel = () => {
             showToast('Please complete the subject details before adding another.', "error");
             return;
         }
-        setSubjects([...subjects, { name: '', classYear: '' }]);
+        const newSubject = {
+            name: subjects[subjects.length - 1].name,
+            classYear: subjects[subjects.length - 1].classYear,
+            uniqueId: `${subjects[subjects.length - 1].name.replace(/\s+/g, '').toLowerCase()}_${Date.now()}`
+        };
+        setSubjects([...subjects, newSubject]);
     };
 
     const clearForm = () => {
@@ -72,7 +104,7 @@ const AdminPanel = () => {
         setPassword('');
         setConfirmPassword('');
         setName('');
-        setSubjects([{ name: '', classYear: '' }]);
+        setSubjects([{ name: '', classYear: '', uniqueId: '' }]);
     };
 
     const clearLocalStorage = () => {
@@ -111,20 +143,12 @@ const AdminPanel = () => {
                         <option value="4th">4th Class</option>
                         <option value="5th">5th Class</option>
                         <option value="5th">6th Class</option>
-                        <option value=""></option>
-                        <option value="">Select a Year</option>
-                        <option value="1st">1st Year</option>
-                        <option value="2nd">2nd Year</option>
-                        <option value="3rd">3rd Year</option>
-                        <option value="4th">4th Year</option>
-                        <option value="5th">5th Year</option>
-                        <option value="5th">6th Year</option>
                     </select>
                 </div>
             ))}
             <button onClick={addSubject} style={styles.buttonStyle}>Add Another Subject</button>
             <button onClick={handleSubmit} style={styles.buttonStyle}>Create {role.charAt(0).toUpperCase() + role.slice(1)}</button>
-            <h1 style={styles.title}>Teachers and Admins Registered</h1>
+            <h1 style={styles.title}>Registered Teachers</h1>
             {teachers.map(teacher => (
                 <div key={teacher.id} style={styles.teacher}>
                     <p>{teacher.name}</p>

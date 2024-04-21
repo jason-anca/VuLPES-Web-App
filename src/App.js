@@ -36,9 +36,9 @@ function App() {
         <PageHeader />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/teacher/:teacherId" element={<TeacherPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/subject/:subjectId" element={<SubjectPage />} />
+          <Route path="/teacher/:teacherId" element={<TeacherPage />} />
           <Route path="/teacher/:teacherId/subject/:subjectUniqueId" element={<SubjectPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/admin" element={<AdminPanel />} />

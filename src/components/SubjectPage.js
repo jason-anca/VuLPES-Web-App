@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PostForm from './postForm/PostForm';
 import PostList from './postList/postList';
+import '../css/SubjectPage.css';  // Import the CSS file
 
 const SubjectPage = () => {
     const { teacherId, subjectUniqueId } = useParams();
@@ -29,7 +30,7 @@ const SubjectPage = () => {
             description,
             timestamp: new Date().toISOString(),
         };
-        setPosts(prevPosts => [newPost, ...prevPosts]); 
+        setPosts(prevPosts => [newPost, ...prevPosts]);
     }, []);
 
     const deletePost = (id) => {
@@ -47,21 +48,12 @@ const SubjectPage = () => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div style={styles.container}>
+            <div className="container">
                 <PostForm addPost={addPost} />
                 <PostList posts={posts} deletePost={deletePost} />
             </div>
         </DragDropContext>
     );
-};
-
-const styles = {
-    container: {
-        padding: '20px',
-        backgroundColor: '#282c34',
-        color: 'white',
-        minHeight: '100vh',
-    },
 };
 
 export default SubjectPage;

@@ -8,7 +8,7 @@ const TeacherCard = ({ teacher }) => {
     console.log("Navigating with teacher ID:", teacher.id);
     navigate(`/teacher/${teacher.id}`);
   };
-
+  const imagePath = teacher.imageUrl || '/images/user.png'; //fallback image path for users
   console.log(`Loading image for ${teacher.name}: ${teacher.imageUrl}`); // Debugging line
 
   const handleImageError = (e) => {
@@ -17,7 +17,7 @@ const TeacherCard = ({ teacher }) => {
 
   return (
     <div style={styles.card} onClick={handleClick}>
-      <img src={teacher.imageUrl} alt={teacher.name} style={styles.image} onError={handleImageError} />
+      <img src={imagePath} alt={teacher.name} style={styles.image} onError={handleImageError} />
       <h3 style={styles.name}>{teacher.name}</h3>
     </div>
   );

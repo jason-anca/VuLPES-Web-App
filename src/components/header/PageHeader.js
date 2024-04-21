@@ -61,7 +61,6 @@ const styles = {
     color: '#FFA500',
   },
   logo: {
-    marginLeft: '125px',
     marginRight: '10px',
     width: '50px',
     height: '50px',
