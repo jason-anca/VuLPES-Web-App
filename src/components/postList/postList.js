@@ -34,9 +34,10 @@ function PostList({ posts, deletePost }) {
                                 <div dangerouslySetInnerHTML={createMarkup(post.description)} />
                                 <div className="footerContainer">
                                         <span className="timestamp">{new Date(post.timestamp).toLocaleString()}</span>
-                                        <button id="deleteButton" onClick={() => deletePost(post.id)} className="deleteButton">
+                                        {user && (<button id="deleteButton" onClick={() => deletePost(post.id)} className="deleteButton">
                                             <i className="fas fa-trash"></i> Delete
                                         </button>
+                                        )}
                                     </div>
                                 </div>
                             )}
