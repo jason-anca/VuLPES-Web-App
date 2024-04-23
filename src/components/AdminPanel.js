@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import bcrypt from 'bcryptjs';
 
 const AdminPanel = () => {
     const { user } = useAuth();
@@ -12,6 +13,7 @@ const AdminPanel = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
     const [subjects, setSubjects] = useState([{ name: '', classYear: '' }]);
+    
 
     useEffect(() => {
         const loadedTeachers = JSON.parse(localStorage.getItem('teachers')) || [];
@@ -22,16 +24,46 @@ const AdminPanel = () => {
         toast(message, { type: type });
     };
 
-    const handleSubmit = () => {
-        if (!username || !password || !name || password !== confirmPassword || (role === 'teacher' && subjects.some(subject => !subject.name || !subject.classYear))) {
+    const handleSubmit = async () => {
+        if (!username.match(/^[a-zA-Z0-9-]+$/)) {
+            showToast("Username must not contain symbols except for hyphens.", "error");
+            return;
+        }
+    
+        if (password.length < 10) {
+            showToast("Password must be at least 10 characters long.", "error");
+            return;
+        }
+        if (!password.match(/\d/)) {
+            showToast("Password must contain at least one number.", "error");
+            return;
+        }
+        if (!password.match(/[!@#$%^&*(),.?":{}|<>]/)) {
+            showToast("Password must contain at least one symbol.", "error");
+            return;
+        }
+    
+        if (password !== confirmPassword) {
+            showToast("Passwords do not match.", "error");
+            return;
+        }
+    
+        if (!name) {
+            showToast("Please enter a full name.", "error");
+            return;
+        }
+    
+        if (role === 'teacher' && subjects.some(subject => !subject.name || !subject.classYear)) {
             showToast("Please fill all fields correctly and ensure all subjects are complete.", "error");
             return;
         }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
     
         const newUser = {
             id: Date.now().toString(),
             username,
-            password,
+            password: hashedPassword,
             name,
             role,
             subjects: role === 'teacher' ? subjects.map(subject => ({
@@ -54,7 +86,7 @@ const AdminPanel = () => {
         const users = JSON.parse(usersStr);
         const userToAdd = {
             username,
-            password,
+            password: hashedPassword,
             role
         };
     
