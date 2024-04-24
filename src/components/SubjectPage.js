@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PostForm from './postForm/PostForm';
 import PostList from './postList/postList';
-import '../css/SubjectPage.css';  // Import the CSS file
+import '../css/SubjectPage.css';
 
 const SubjectPage = () => {
     const { teacherId, subjectUniqueId } = useParams();

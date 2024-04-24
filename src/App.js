@@ -16,7 +16,6 @@ Amplify.configure(awsExports);
 
 function App() {
   useEffect(() => {
-    // Initialize default users if not already present
     const initializeUsers = () => {
       const defaultUsers = [
         { username: 'admin', password: 'admin', role: 'admin' },
