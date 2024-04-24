@@ -2,7 +2,10 @@
 VuLPES is my final year project in SETU and the idea behind this project is to create a low-cost platform and infrastructure where course materials can be uploaded by educators and viewed by students in a learning environment. This infrastructure is to be composed of a JavaScript Application that's backed by a database and has hardware components like a Raspberry Pi to host the Web App to act as a content manager. The Raspberry Pi uses PiHole while hosting the Web App so that when users are connected to the Wi-Fi connection, certain domains are blocked from view.
 
 # Getting Started
-## How to run the app in this version:
+## How to run the app:
+- Node.js is required to use the web-app
+- Npm is required to use the web-app
+- Install required node packages. This list can be found at the end of the read me.
 - Use the command: "npm start"
 
 
@@ -22,3 +25,35 @@ VuLPES is my final year project in SETU and the idea behind this project is to c
 ## Raspberry Pi
 - Currently a Raspberry Pi is using PiHole to filter out domains on the network. This is to act as the content manager for people on the network.
 - Additionally, the Web App has the ability to be hosted on the Raspberry Pi so that users on the network can also view the Web App but is not publically accessable.
+
+## NPM Packages
+This is a list of NPM packages that I have used during development. Some packages have endded up redudantant due to missing some core features but are required if the project is updated in the future to use proper authentication using DynamoDB and etc.
+</br>
+npm install @aws-amplify/auth
+npm install @aws-amplify/ui-react
+npm install @emotion/react
+npm install @fortawesome/fontawesome-free
+npm install @testing-library/jest-dom
+npm install @testing-library/react
+npm install @testing-library/user-event
+npm install amazon-cognito-identity-js
+npm install aws-amplify
+npm install aws-sdk
+npm install axios
+npm install bcryptjs
+npm install crypto-browserify
+npm install dompurify
+npm install path
+npm install react
+npm install react-beautiful-dnd
+npm install react-dom
+npm install react-quill
+npm install react-router-dom
+npm install react-scripts
+npm install react-toastify
+npm install stream
+npm install theme-ui
+npm install web-vitals
+
+The installation process can be streamlined using the following command with node and npm installed:
+`npm install @aws-amplify/auth; npm install @aws-amplify/ui-react; npm install @emotion/react; npm install @fortawesome/fontawesome-free; npm install @testing-library/jest-dom; npm install @testing-library/react; npm install @testing-library/user-event; npm install amazon-cognito-identity-js; npm install aws-amplify; npm install aws-sdk; npm install axios; npm install bcryptjs; npm install crypto-browserify; npm install dompurify; npm install path; npm install react; npm install react-beautiful-dnd; npm install react-dom;npm install react-quill; npm install react-router-dom; npm install react-scripts; npm install react-toastify; npm install stream; npm install theme-ui; npm install web-vitals;`
