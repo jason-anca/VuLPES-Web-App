@@ -25,7 +25,7 @@ const SubjectCard = ({ subject, teacherId }) => {
 const styles = {
   card: {
     cursor: 'pointer',
-    backgroundColor: '#333',
+    backgroundColor: '#282C34',
     color: '#FFA500',
     padding: '20px',
     margin: '10px',

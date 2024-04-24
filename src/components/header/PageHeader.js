@@ -51,7 +51,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 20px',
-    backgroundColor: '#333',
+    backgroundColor: '#282C34',
     borderBottom: '2px solid #FFA500',
   },
   logoLink: {
